@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sign up</title>
+  <style>
+    body { font-family: system-ui, sans-serif; background: #f4f4f8; color: #222; }
+    .container { max-width: 360px; margin: 64px auto; padding: 24px; background: #fff; border-radius: 12px; box-shadow: 0 5px 16px rgba(0,0,0,0.08); }
+    label { display: block; margin-top: 12px; font-weight: 600; }
+    input { width: 100%; padding: 10px 12px; margin-top: 6px; border: 1px solid #ccc; border-radius: 8px; }
+    button { margin-top: 20px; width: 100%; padding: 10px; border: none; border-radius: 8px; background: #16a34a; color: #fff; font-size: 16px; cursor: pointer; }
+    button:disabled { opacity: 0.65; cursor: default; }
+    .message { margin-top: 16px; padding: 12px; border-radius: 8px; }
+    .success { background: #d1fae5; color: #065f46; }
+    .error { background: #fee2e2; color: #991b1b; }
+    .small { margin-top: 14px; font-size: 14px; text-align: center; }
+    .small a { color: #16a34a; text-decoration: none; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Sign up</h1>
+    <form id="signupForm">
+      <label for="username">Username</label>
+      <input id="username" name="username" type="text" autocomplete="username" />
+
+      <label for="email">Email</label>
+      <input id="email" name="email" type="email" autocomplete="email" />
+
+      <label for="password">Password</label>
+      <input id="password" name="password" type="password" autocomplete="new-password" />
+
+      <button id="submitButton" type="submit">Create account</button>
+
+      <div id="message" class="message" role="status" style="display: none;"></div>
+    </form>
+
+    <p class="small">
+      Already have an account? <a href="login.html">Log in</a>
+    </p>
+  </div>
+
+  <script>
+    const form = document.getElementById('signupForm');
+    const message = document.getElementById('message');
+    const submitButton = document.getElementById('submitButton');
+
+    function setMessage(text, type) {
+      message.textContent = text;
+      message.className = 'message ' + type;
+      message.style.display = 'block';
+    }
+
+    form.addEventListener('submit', (event) => {
+      event.preventDefault();
+      setMessage('', '');
+
+      const username = form.username.value.trim();
+      const email = form.email.value.trim();
+      const password = form.password.value.trim();
+
+      if (!username || !email || !password) {
+        setMessage('Please fill in all fields.', 'error');
+        return;
+      }
+
+      // Demo validation
+      if (!email.includes('@')) {
+        setMessage('Please enter a valid email address.', 'error');
+        return;
+      }
+
+      if (password.length < 6) {
+        setMessage('Password must be at least 6 characters.', 'error');
+        return;
+      }
+
+      submitButton.disabled = true;
+      setTimeout(() => {
+        setMessage('Account created! Redirecting to login...', 'success');
+      }, 550);
+    });
+  </script>
+</body>
+</html>
